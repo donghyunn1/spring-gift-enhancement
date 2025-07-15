@@ -25,7 +25,7 @@ public class WishServiceImpl implements WishService {
     @Override
     @Transactional
     public Wish addWish(Long memberId, WishRequestDto requestDto) {
-        if (wishRepository.exists(memberId, requestDto.productId())) {
+        if (wishRepository.existsByMemberIdAndProductId(memberId, requestDto.productId())) {
             throw new DuplicatedWishException("이미 위시리스트에 등록된 상품입니다.");
         }
 
