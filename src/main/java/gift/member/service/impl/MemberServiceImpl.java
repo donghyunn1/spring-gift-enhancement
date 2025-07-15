@@ -12,8 +12,10 @@ import gift.member.model.Token;
 import gift.member.repository.MemberRepository;
 import gift.member.service.MemberService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
@@ -25,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public SignUpResponseDto signUp(SignUpRequestDto signUpRequestDto) {
         if (memberRepository.existsByEmail(signUpRequestDto.email())) {
             throw new DuplicatedException("이미 사용 중인 이메일입니다.");
@@ -40,6 +43,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         Member member = memberRepository.findByEmail(loginRequestDto.email())
                 .orElseThrow(() -> new AuthenticationException("존재하지 않는 이메일 입니다."));
@@ -55,6 +59,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public Member findById(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new AuthenticationException("존재하지 않는 회원입니다."));

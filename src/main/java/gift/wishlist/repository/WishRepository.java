@@ -3,11 +3,10 @@ package gift.wishlist.repository;
 import gift.wishlist.model.Wish;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface WishRepository {
-    Wish save(Wish wish);
+public interface WishRepository extends JpaRepository<Wish, Long> {
     List<Wish> findByMemberId(Long memberId);
     Optional<Wish> findByProductId(Long productId);
-    void deleteById(Long id);
-    boolean exists(Long memberId, Long productId);
+    boolean existsByMemberIdAndProductId(Long memberId, Long productId);
 }

@@ -10,8 +10,10 @@ import gift.wishlist.repository.WishRepository;
 import gift.wishlist.service.WishService;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class WishServiceImpl implements WishService {
 
     private final WishRepository wishRepository;
@@ -21,8 +23,9 @@ public class WishServiceImpl implements WishService {
     }
 
     @Override
+    @Transactional
     public Wish addWish(Long memberId, WishRequestDto requestDto) {
-        if (wishRepository.exists(memberId, requestDto.productId())) {
+        if (wishRepository.existsByMemberIdAndProductId(memberId, requestDto.productId())) {
             throw new DuplicatedWishException("이미 위시리스트에 등록된 상품입니다.");
         }
 
@@ -31,6 +34,7 @@ public class WishServiceImpl implements WishService {
     }
 
     @Override
+    @Transactional
     public List<WishResponseDto> getWishesByMemberId(Long memberId) {
         List<Wish> wishes = wishRepository.findByMemberId(memberId);
 
@@ -40,6 +44,7 @@ public class WishServiceImpl implements WishService {
     }
 
     @Override
+    @Transactional
     public void deleteWish(Long productId, Long memberId) {
         Wish wish = wishRepository.findByProductId(productId)
                 .orElseThrow(() -> new WishNotFoundException("위시리스트 항목을 찾을 수 없습니다."));

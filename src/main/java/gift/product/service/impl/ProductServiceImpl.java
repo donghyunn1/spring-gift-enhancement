@@ -9,8 +9,10 @@ import gift.product.service.ProductService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
@@ -20,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Product createProduct(ProductRequestDto productDto) {
         validateProductName(productDto);
 
@@ -39,17 +42,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Product updateProduct(Long id, ProductRequestDto productDto) {
         validateProductName(productDto);
 
-        if (productRepository.findById(id).isEmpty()) {
-            throw new ProductNotFoundException(id);
-        }
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
 
-        return productRepository.update(id, productDto);
+        product.updateFrom(productDto);
+
+        return product;
     }
 
     @Override
+    @Transactional
     public void deleteProduct(Long id) {
         if (productRepository.findById(id).isEmpty()) {
             throw new ProductNotFoundException(id);
