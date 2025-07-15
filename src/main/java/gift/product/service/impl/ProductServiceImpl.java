@@ -22,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Product createProduct(ProductRequestDto productDto) {
         validateProductName(productDto);
 
