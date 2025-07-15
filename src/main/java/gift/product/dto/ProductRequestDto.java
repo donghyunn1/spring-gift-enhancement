@@ -38,6 +38,6 @@ public record ProductRequestDto(
     }
 
     public Product toEntity() {
-        return new Product(null, this.name, this.price, this.imageUrl);
+        return new Product(this.name, this.price, this.imageUrl);
     }
 }

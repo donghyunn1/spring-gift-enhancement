@@ -32,6 +32,12 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
+    public Product(String name, int price, String imageUrl) {
+        this.name = name;
+        this.price = price;
+        this.imageUrl = imageUrl;
+    }
+
     protected Product() {}
 
     public Long getId() {
