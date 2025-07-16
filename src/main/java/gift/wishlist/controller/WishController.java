@@ -8,6 +8,10 @@ import gift.wishlist.model.Wish;
 import gift.wishlist.service.WishService;
 import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,8 +42,10 @@ public class WishController {
     }
 
     @GetMapping
-    public ResponseEntity<List<WishResponseDto>> getWishes(@LoginMember Member member) {
-        List<WishResponseDto> wishes = wishService.getWishesByMemberId(member.getId());
+    public ResponseEntity<Page<WishResponseDto>> getWishes(
+            @LoginMember Member member,
+            @PageableDefault(size = 10, sort = "createdDate", direction = Direction.DESC) Pageable pageable) {
+        Page<WishResponseDto> wishes = wishService.getWishesByMemberId(member.getId(), pageable);
         return ResponseEntity.ok(wishes);
     }
 
