@@ -6,6 +6,8 @@ import gift.product.exception.ProductValidationException;
 import gift.product.model.Product;
 import gift.product.repository.ProductRepository;
 import gift.product.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,8 +33,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
     @Override
