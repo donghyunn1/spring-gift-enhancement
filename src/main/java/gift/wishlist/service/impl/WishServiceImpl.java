@@ -41,7 +41,6 @@ public class WishServiceImpl implements WishService {
         Page<Wish> wishes = wishRepository.findByMemberId(memberId, pageable);
 
         return wishes.map(WishResponseDto::from);
-
     }
 
     @Override
