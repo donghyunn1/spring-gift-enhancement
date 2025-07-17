@@ -7,6 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import java.time.LocalDateTime;
+import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @Table(name = "wishes",uniqueConstraints = @UniqueConstraint(columnNames = {"member_id", "product_id"}))
@@ -24,6 +26,10 @@ public class Wish {
 
     @Column(name = "quantity")
     private Long quantity;
+
+    @CreatedDate
+    @Column(name = "created_date", updatable = false)
+    private LocalDateTime createdDate;
 
     public Wish(Long id, Long memberId, Long productId, Long quantity) {
         this.id = id;
@@ -52,6 +58,10 @@ public class Wish {
 
     public Long getQuantity() {
         return quantity;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
     public void setId(Long id) {

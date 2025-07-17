@@ -43,3 +43,7 @@
 - JDBCTemplate 기반 코드를 JPA로 변경
   - entity 
   - repository -> JPA로 리팩토링
+
+- 페이지네이션 구현
+  - Product 조회 (/api/products?page=0&size=10&sort=name,asc&categoryId=1)
+  - Wish 조회 (/api/wishes?page=0&size=10&sort=createdDate,desc)

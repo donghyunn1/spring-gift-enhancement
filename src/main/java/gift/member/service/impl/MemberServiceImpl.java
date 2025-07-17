@@ -43,7 +43,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         Member member = memberRepository.findByEmail(loginRequestDto.email())
                 .orElseThrow(() -> new AuthenticationException("존재하지 않는 이메일 입니다."));
@@ -59,7 +58,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
     public Member findById(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new AuthenticationException("존재하지 않는 회원입니다."));
