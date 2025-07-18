@@ -17,7 +17,7 @@ CREATE TABLE wishes (
     member_id BIGINT NOT NULL,
     product_id BIGINT NOT NULL,
     quantity BIGINT DEFAULT 1,
-    created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (member_id) REFERENCES members(id),
     FOREIGN KEY (product_id) REFERENCES products(id),
     UNIQUE(member_id, product_id)
