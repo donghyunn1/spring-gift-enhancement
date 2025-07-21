@@ -22,3 +22,12 @@ CREATE TABLE wishes (
     FOREIGN KEY (product_id) REFERENCES products(id),
     UNIQUE(member_id, product_id)
 );
+
+CREATE TABLE option (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    quantity BIGINT NOT NULL CHECK (quantity >= 1 AND quantity < 100000000),
+    product_id BIGINT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    UNIQUE(product_id, name)
+);
