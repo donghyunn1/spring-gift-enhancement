@@ -63,9 +63,16 @@ public class OptionServiceImpl implements OptionService {
 
     @Transactional
     public void deleteOption(Long optionId) {
-        if (!optionRespository.existsById(optionId)) {
-            throw new OptionNotFoundException("옵션을 찾을 수 없습니다.");
+        Option option = optionRespository.findById(optionId)
+                .orElseThrow(() -> new OptionNotFoundException("옵션을 찾을 수 없습니다. ID: " + optionId));
+
+        Long productId = option.getProduct().getId();
+        long optionCount = optionRespository.countByProductId(productId);
+
+        if (optionCount < 1) {
+            throw new OptionValidationException("상품에는 최소 하나 이상의 옵션이 있어야 합니다. 마지막 옵션은 삭제할 수 없습니다.");
         }
+
         optionRespository.deleteById(optionId);
     }
 }
