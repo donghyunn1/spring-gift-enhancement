@@ -30,8 +30,6 @@ public class OptionServiceImpl implements OptionService {
     @Override
     @Transactional
     public Option createOption(Long productId, OptionRequestDto requestDto) {
-        validateOptionName(requestDto);
-
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException(productId));
 
@@ -61,14 +59,6 @@ public class OptionServiceImpl implements OptionService {
         Option option = optionRespository.findById(optionId)
                         .orElseThrow(() -> new OptionNotFoundException("옵션을 찾을 수 없습니다."));
         option.subtractQuantity(quantity);
-    }
-
-    private void validateOptionName(OptionRequestDto optionRequestDto) {
-        try {
-            optionRequestDto.validateOptionName();
-        } catch (IllegalArgumentException e) {
-            throw new OptionValidationException(e.getMessage());
-        }
     }
 
     @Transactional
